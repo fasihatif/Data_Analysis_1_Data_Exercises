@@ -76,8 +76,24 @@ bottom <- c("Watford","Brighton","Huddersfield","Southampton","Wolves","Fulham",
 
 --------------------------------------
   
-  
+summarytop_teams %>% summarise(mean = mean(home_advantage), std = sd(home_advantage))
 
+
+home_adv_summary_stats <- (top_teams %>% summarise(mean = mean(home_advantage), std = sd(home_advantage))) %>% 
+  add_row(middle_teams %>% summarise(mean = mean(home_advantage), std = sd(home_advantage))) %>% 
+  add_row(bottom_teams %>% summarise(mean = mean(home_advantage), std = sd(home_advantage)))
+
+home_adv_summary_stats$group <- c("top_teams", "middle_teams","bottom_teams")
+home_adv_summary_stats <- home_adv_summary_stats %>% select(group, everything())
+
+rm(home_adv_summary_stats)
+
+top_teams %>% summarise(sum(home_advantage > 0 )/ sum(home_advantage) * 100)
+
+
+install.packages("Hmisc")
+library(Hmisc)
+Hmisc::describe(top_teams$home_advantage)
 
 
  
