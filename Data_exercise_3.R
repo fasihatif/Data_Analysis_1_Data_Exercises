@@ -36,19 +36,15 @@ middle_teams <- epl_2018 %>%
 bottom_teams <- epl_2018 %>%
   filter(team_home %in% c("Watford","Brighton","Huddersfield","Southampton","Wolves","Fulham","Cardiff"))
          
-rm(Middle_teams)
+
 
 -------------------------------------
   
 top_teams <- mutate(top_teams, "home_advantage" = goals_home - goals_away)
-middle_teams <- mutate(top_teams, "home_advantage" = goals_home - goals_away)
-bottom_teams <- mutate(top_teams, "home_advantage" = goals_home - goals_away)
+middle_teams <- mutate(middle_teams, "home_advantage" = goals_home - goals_away)
+bottom_teams <- mutate(bottom_teams, "home_advantage" = goals_home - goals_away)
 
-
-ggplot(top_teams, aes(x = home_advantage)) +
-  geom_histogram(y = stat(home_advantage) / sum(home_advantage))*100) + 
-  theme_bw()
-
+-------------------------------------
 
 library(lattice)
 histogram(top_teams$home_advantage,
@@ -58,14 +54,31 @@ histogram(top_teams$home_advantage,
           col = "red",
           breaks = 8)
 
+histogram(middle_teams$home_advantage,
+          main = "Distribution of goal diff on home pitch (Middle Teams)",
+          xlab = "Goal Difference",
+          ylab = "Share of games (percent)",
+          col = "steelblue",
+          breaks = 8)
+
+histogram(bottom_teams$home_advantage,
+          main = "Distribution of goal diff on home pitch (Bottom Teams)",
+          xlab = "Goal Difference",
+          ylab = "Share of games (percent)",
+          col = "grey",
+          breaks = 8)
+
+
+
 top <- c("Man City","Man United","Tottenham","Liverpool","Chelsea","Arsenal")
 middle <- c("Burnley", "Everton", "Leicester", "Bournemouth", "Crystal Palace", "Newcastle", "West Ham")
 bottom <- c("Watford","Brighton","Huddersfield","Southampton","Wolves","Fulham","Cardiff")
 
-epl_2018 <- epl_2018 %>%
-  mutate("tier" = case_when(team_home = top ~ 'Top'),
-                          team_home = middle ~ 'Middle',
-                                TRUE ~ 'Bottom'))
+--------------------------------------
+  
+  
+
+
 
  
    ?mutate                          
